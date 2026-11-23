@@ -1,32 +1,38 @@
-app = 'searxng-memfree'
-primary_region = 'hkg'
+# fly.toml app configuration file generated for searxng1 on 2026-11-23T02:48:28Z
+#
+# See https://docs.fly.io/reference/configuration for information about how to use this file.
+#
+
+app = 'searxng1'
+primary_region = 'nrt'
 
 [build]
-  dockerfile = "Dockerfile.searxng"
+  dockerfile = 'Dockerfile.searxng'
+
+[deploy]
+  strategy = 'bluegreen'
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
-  [http_service.concurrency]
-    type = "requests"
-    soft_limit = 10
-    hard_limit = 15
 
-[[http_service.checks]]
-  grace_period = "10s"
-  interval = "30s"
-  method = "GET"
-  timeout = "5s"
-  path = "/"
+  [http_service.concurrency]
+    type = 'requests'
+    hard_limit = 15
+    soft_limit = 10
+
+  [[http_service.checks]]
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '10s'
+    method = 'GET'
+    path = '/'
 
 [[vm]]
-  memory = '256MB'
+  memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
-
-[deploy]
-  strategy = "bluegreen"
