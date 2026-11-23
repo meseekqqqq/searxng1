@@ -1,5 +1,5 @@
 app = 'searxng-memfree'
-primary_region = 'sjc'
+primary_region = 'hkg'
 
 [build]
   dockerfile = "Dockerfile.searxng"
